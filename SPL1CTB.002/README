@@ -1,0 +1,34 @@
+From: http://nsidc.org/data/docs/daac/smap/sp_l1c_tb/index.html
+
+Files are named according to the following convention, which is described in Table 1:
+SMAP_L1C_TB_[Orbit#]_[A/D]_yyyymmddThhmmss_RLVvvv_NNN.[ext]
+
+For example:
+
+SMAP_L1C_TB_03895_D_20151024T213750_R11920_001.h5
+
+Where:
+
+Table 1. File Naming Conventions
+Variable	Description
+SMAP	Indicates SMAP mission data
+L1C_TB	Indicates specific product (L1C: Level-1C; TB: Brightness Temperature)
+[Orbit#]	5-digit sequential number of the orbit flown by the SMAP spacecraft when data were acquired. Orbit 00000 began at launch.
+[A/D]	Half-orbit pass of the satellite, such as: 
+A: Ascending (where satellite moves from South to North, and 6:00 p.m. is the local solar equator crossing time)
+D: Descending (where satellite moves from North to South, and 6:00 a.m. is the local solar equator crossing time)
+yyyymmddThhmmss	Date/time in Universal Coordinated Time (UTC) of the first data element that appears in the product, where:
+yyyymmdd	4-digit year, 2-digit month, 2-digit day
+T	Time (delineates the date from the time, i.e. yyyymmddThhmmss)
+hhmmss	2-digit hour, 2-digit month, 2-digit second
+RLVvvv	Composite Release ID, where:
+R	Release
+L	Launch Indicator (1: Post-launch standard data)
+V	1-Digit Major Version Number
+vvv	3-Digit Minor Version Number
+Example: R14001 indicates a a standard data product with a version of 4.001.
+NNN	Number of times the file was generated under the same version for a particular date/time interval (002: 2nd time)
+.[ext]	File extensions include:
+.h5	HDF5 data file
+.qa	Quality Assurance file
+.xml	XML Metadata file

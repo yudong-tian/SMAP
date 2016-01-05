@@ -1,0 +1,5 @@
+
+1/5/2016
+
+wget -r -nH --cut-dirs=3 ftp://n5eil01u.ecs.nsidc.org/SAN/SMAP/SPL1CTB.002/2015.12.31/
+
