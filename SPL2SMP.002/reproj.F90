@@ -7,8 +7,8 @@ program reproj
       implicit none
 
       ! for reprojection
-      real, parameter :: lat0=-89.875, lon0=-179.875, res=0.25
-      integer, parameter :: nc=1440, nr=720  ! lat/lon grid
+      real, parameter :: lat0=-89.75, lon0=-179.75, res=0.5
+      integer, parameter :: nc=720, nr=360  ! lat/lon grid
       integer :: ic, ir 
       real (kind=4), allocatable :: sm(:), lon(:), lat(:) 
       real (kind=4) :: osm(nc, nr) 
@@ -30,6 +30,8 @@ program reproj
       integer(hid_t)                :: dataspace
 
       filename = "2015.12.31/SMAP_L2_SM_P_04877_D_20151231T010530_R12240_001.h5" 
+      filename = "2015.12.31/SMAP_L2_SM_P_04886_D_20151231T155137_R12240_001.h5"
+      filename = "2015.12.31/SMAP_L2_SM_P_04879_D_20151231T042226_R12240_001.h5"
       !======= open the interface 
       call h5open_f(status) 
       if (status .ne. 0) write(*, *) "Failed to open HDF interface" 
