@@ -9,7 +9,7 @@ program reproj
       ! for reprojection
       real, parameter :: lat0=-89.75, lon0=-179.75, res=0.5
       integer, parameter :: nc=720, nr=360  ! lat/lon grid
-      integer :: ic, ir 
+      integer :: ic, ir, iargc
       real (kind=4), allocatable :: sm(:), lon(:), lat(:) 
       real (kind=4) :: osm(nc, nr) 
 
@@ -20,7 +20,7 @@ program reproj
       integer (kind=4), allocatable :: start(:),stride(:)
 
       !======= choose the file and field to read
-      character (len=128) :: filename
+      character (len=128) :: filename, ofile ! input and output file names 
       character*100,   parameter    :: sm_gr_name = "Soil_Moisture_Retrieval_Data"
       character*100,   parameter    :: sm_field_name = "soil_moisture"
       character*100,   parameter    :: lon_name = "longitude"
@@ -29,9 +29,16 @@ program reproj
       integer(hid_t)                :: lon_id, lat_id 
       integer(hid_t)                :: dataspace
 
-      filename = "2015.12.31/SMAP_L2_SM_P_04877_D_20151231T010530_R12240_001.h5" 
-      filename = "2015.12.31/SMAP_L2_SM_P_04886_D_20151231T155137_R12240_001.h5"
-      filename = "2015.12.31/SMAP_L2_SM_P_04879_D_20151231T042226_R12240_001.h5"
+      i =  iargc()
+      If (i.ne.2) Then   ! wrong cmd line args, print usage
+         write(*, *)"Usage:"
+         write(*, *)"reproj input_h5_file output_bin_file"
+         stop
+      End If
+
+     call getarg(1, filename)
+     call getarg(2, ofile)
+      
       !======= open the interface 
       call h5open_f(status) 
       if (status .ne. 0) write(*, *) "Failed to open HDF interface" 
@@ -85,7 +92,7 @@ program reproj
       end do 
      
       write(*, *) "Saving binary format ...", nc, nr
-      open(22, file="soil_moisture.1gd4r", form="unformatted", access="direct", recl=nc*nr*4) 
+      open(22, file=ofile, form="unformatted", access="direct", recl=nc*nr*4) 
           write(22, rec=1) osm 
       close(22) 
        
