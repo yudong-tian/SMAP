@@ -9,7 +9,7 @@ program reproj
       ! for reprojection
       real, parameter :: lat0=-89.75, lon0=-179.75, res=0.5
       integer, parameter :: nc=720, nr=360  ! lat/lon grid
-      integer :: ic, ir 
+      integer :: ic, ir, iargc 
       real (kind=4), allocatable :: tbh(:), tbv(:), lon(:), lat(:) 
       real (kind=4) :: otbv(nc, nr), otbh(nc, nr) 
 
@@ -20,7 +20,7 @@ program reproj
       integer (kind=4), allocatable :: start(:),stride(:)
 
       !======= choose the file and field to read
-      character (len=128) :: filename
+      character (len=128) :: filename, ofile
       character*100,   parameter    :: group_name = "Global_Projection" 
       character*100,   parameter    :: lon_name = "cell_lon" 
       character*100,   parameter    :: lat_name = "cell_lat" 
@@ -30,7 +30,16 @@ program reproj
       integer(hid_t)                :: lon_id, lat_id, tbv_id, tbh_id 
       integer(hid_t)                :: dataspace
 
-      filename = "2015.12.31/SMAP_L1C_TB_04877_A_20151231T001615_R12240_001.h5"
+      i =  iargc()
+      If (i.ne.2) Then   ! wrong cmd line args, print usage
+         write(*, *)"Usage:"
+         write(*, *)"reproj input_h5_file output_bin_file"
+         stop
+      End If
+
+      call getarg(1, filename)
+      call getarg(2, ofile)
+
       !======= open the interface 
       call h5open_f(status) 
       if (status .ne. 0) write(*, *) "Failed to open HDF interface" 
@@ -93,7 +102,7 @@ program reproj
       end do 
      
       write(*, *) "Saving binary format ...", nc, nr
-      open(22, file="tbs.2gd4r", form="unformatted", access="direct", recl=nc*nr*4) 
+      open(22, file=ofile, form="unformatted", access="direct", recl=nc*nr*4) 
           write(22, rec=1) otbv
           write(22, rec=2) otbh
       close(22) 
